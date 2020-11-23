@@ -237,7 +237,7 @@ If you can see the command prompt changed to be `opg-jshell>`, then you have con
 
 ### Prepare database schema HR
 
-Download the HR create script from [here](https://github.com/rexzj266/oracle-pgx-scripts) and create HR schema in `pdb1` user `demograph`
+Download the HR create script from [here](https://github.com/rexzj266/oracle-pgx-on-dbcs-quickstart) and create HR schema in `pdb1` user `demograph`
 
 ```sql
 sqlplus demograph/<PASSWORD>@db19h.sub11160238550.graphvcntokyo.oraclevcn.com:1521/pdb1.sub11160238550.graphvcntokyo.oraclevcn.com
@@ -264,7 +264,7 @@ conn.setAutoCommit(false)
 
 Execute following statements to create a PGQL connection. Through this PGQL connection, we will execute the prepared script `create.pgql` to create property graph tables based on the database tables in HR schema we created previously.
 
-You can get the `create.pgql` from [here](https://github.com/rexzj266/oracle-pgx-scripts).
+You can get the `create.pgql` from [here](https://github.com/rexzj266/oracle-pgx-on-dbcs-quickstart).
 
 ```java
 var pgql = PgqlConnection.getConnection(conn)
