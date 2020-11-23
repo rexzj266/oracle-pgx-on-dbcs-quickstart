@@ -32,7 +32,6 @@ SQL> @catopg.sql
 
 Note: there are two directories in the unzipped directory, one for users with Oracle Database 18c or below, and one for users with Oracle Database 19c or above. As a database user with DBA privilges, follow the instructions in the README.md file in the appropriate directory (that matches your database version). This has to be done for every PDB you will use the graph feature in. The DBCS instance I created is 19c, so I should execute the scripts in `19c_and_above`.
 
-
 ## Oracle Property Graph Server and Client Installation
 
 In this section, we will install the latest version of Oracle Graph Server and Client 20.4.
@@ -53,6 +52,7 @@ opc@db19h graph]$
 ```
 
 [Figure: java version]
+
 ![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/12848846-7a52-251a-dcd9-2e8842cb8b69.png)
 
 ### Oracle Property Graph Server 20.4
@@ -74,6 +74,7 @@ sudo systemctl stop pgx
 ```
 
 [Figure: PGX start & status]
+
 ![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/677c97fb-9a42-0e0f-2caf-9b5e7de9eb0d.png)
 
 #### Configuration in Oracle Database
@@ -86,6 +87,7 @@ sqlplus / as sysdba
 ```
 
 [Figure: connect to DB]
+
 ![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/f5cd3c63-eb09-839c-bb06-e667f50786fc.png)
 
 Create database user `demograph` in PDB `pdb1`, grant role and tablespace accordingly.
@@ -108,6 +110,7 @@ GRANT UNLIMITED TABLESPACE TO demograph;
 ```
 
 [Figure: prepare DB user `demograph`]
+
 ![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/b7fe513d-e5cf-82e3-77d0-38b813b0bf1a.png)
 
 #### Configuration in Oracle Property Graph Server
@@ -132,6 +135,7 @@ We can get the connection string from the DBCS web console, or by command `lsnrc
 Since the user `demograph` was created in `pdb1`, so the connection string I am using here is to `pdb1`.
 
 [Figure: JDBC in `pgx.conf`]
+
 ![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/f1773c56-8285-605d-037f-1925a2924460.png)
 
 - Edit configuration file `server.conf`
@@ -143,6 +147,7 @@ sudo vim /etc/oracle/graph/server.conf
 ```
 
 [Figure: enable_tls in `server.conf`]
+
 ![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/208dd10d-8c45-ce05-1b86-7921e4582db8.png)
 
 #### Restart PGX service
@@ -153,6 +158,7 @@ sudo systemctl status pgx
 ```
 
 [Figure: restart PGX service]
+
 ![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/6c1f1014-bd6b-d66d-3a53-b63ee294366f.png)
 
 ### Oracle Property Graph Client 20.4
@@ -188,6 +194,7 @@ curl -X POST -H 'Content-Type: application/json' -d '{"username": "<DB USER>", "
 - `HOST URL` can be extracted from the connection string.
 
 [Figure: get PGX token]
+
 ![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/8a768dbc-d34e-b682-7c8c-d90bae14226f.png)
 
 The response is a JSON object actually, if we format it we can see that there are 3 items in the response. They represent the token content, token type and token expiration time respectively. What we need in next step is the content of `access_token`. Please also pay attention to the expiration time. `14400` means in 4 hours later, this token will be expired, the session created with this token will be expired as well.
@@ -201,6 +208,7 @@ The response is a JSON object actually, if we format it we can see that there ar
 ```
 
 [Figure: access token content]
+
 ![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/c58b28e9-2e2f-3c7c-1de8-1daaa1a5580e.png)
 
 #### Connect to the Property Graph Server
@@ -220,6 +228,7 @@ cd /home/graph/oracle-graph-client-20.4.0/bin
 **Note: for security reason, there is no any character display when you paste the token, so don't doubt yourself, just press enter should be fine.**
 
 [Figure: jshell to PGX server]
+
 ![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/a1941270-4ae6-35e0-d107-0e6fa0b133e6.png)
 
 If you can see the command prompt changed to be `opg-jshell>`, then you have connected to the server successfully.
@@ -250,6 +259,7 @@ conn.setAutoCommit(false)
 ```
 
 [Figure: jshell connection]
+
 ![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/fe219014-6edd-a527-e586-0eb1c6df4128.png)
 
 Execute following statements to create a PGQL connection. Through this PGQL connection, we will execute the prepared script `create.pgql` to create property graph tables based on the database tables in HR schema we created previously.
@@ -262,9 +272,11 @@ pgql.prepareStatement(Files.readString(Paths.get("/home/graph/create.pgql"))).ex
 ```
 
 [Figure: pgql connection]
+
 ![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/2f7c7ea8-e9f3-b296-a64a-fec11803b83b.png)
 
 [Figure: `create.pgql`]
+
 ![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/0ff4cebc-1df2-f5af-5824-a1171ababcac.png)
 
 Now, we have created some property graph tables, including **VERTEX TABLES** and **EDGE TABLES**.
@@ -285,6 +297,7 @@ Consumer < String > query = q -> {
 ```
 
 [Figure: lambda `query`]
+
 ![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/ccdaef6c-13e6-eae5-f8da-213274a95d42.png)
 
 Query the number of vertices in the `hr graph` with following statement.
@@ -294,6 +307,7 @@ query.accept("select count(v) from hr match (v)")
 ```
 
 [Figure: query vertices]
+
 ![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/95b4390e-20f9-d0ce-fe02-e7c3412471f6.png)
 
 Query the number of edge with following statement.
@@ -309,6 +323,7 @@ query.accept("select distinct m.FIRST_NAME, m.LAST_NAME,m.SALARY from hr match (
 ```
 
 [Figure: query manager info]
+
 ![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/94757b12-9041-0ee5-4395-0e4354322773.png)
 
 ### Query from memory
@@ -348,6 +363,7 @@ Supplier <GraphConfig> pgxConfig = () -> {
 ```
 
 [Figure: define graph structure in memory]
+
 ![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/9bbc6690-82e6-b3ca-1f0e-7220ce206a14.png)
 
 Execute following statement to create the graph in memory.
@@ -357,6 +373,7 @@ var graph = session.readGraphWithProperties(pgxConfig.get())
 ```
 
 [Figure: create graph in memory]
+
 ![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/f362e6f2-7a18-2159-758d-a2625206b44a.png)
 
 Execute following statement to analyse the graph with pagerank algorithm.
@@ -366,6 +383,7 @@ analyst.pagerank(graph)
 ```
 
 [Figure: analyze graph with pagerank]
+
 ![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/64a69ef3-f7c2-36b3-2fe4-abdf9e192e96.png)
 
 Execute following statement to query and print out the first 10 employee information which are sorted in descending order of pagerank results.
@@ -375,6 +393,7 @@ session.queryPgql("select m.FIRST_NAME, m.LAST_NAME,m.pagerank from hr match (m:
 ```
 
 [Figure: query pagerank result]
+
 ![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/e20f9e51-1eae-fed7-1413-eb63c0a39136.png)
 
 ## Graph Sample - Online Retail
@@ -423,6 +442,7 @@ keytool -importpass -alias demograph -keystore keystore.p12
 Input the password of this keystore when prompting `Enter keystore password:`, then input the password you want to store when prompting `Enter the password to be stored:`. In our case, it should be the password of database uesr `demograph`.
 
 [Figure: generate keystore]
+
 ![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/6686f7ea-438e-fedd-aaf4-b25e4869fbbc.png)
 
 ### Connect with `keystore`
@@ -445,6 +465,7 @@ cd /home/graph/oracle-graph-client-20.4.0/bin
 Input the auth token we got just now, and input the password of the keystore when prompting `enter password for keystore /home/graph/keystores/keystore.p12:`
 
 [Figure: jshell connect with keystore ]
+
 ![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/b2c859c1-c74f-b5b0-5485-5cbdda6f8be5.png)
 
 ### Create graph into PGX with pre-defined configuration file
@@ -456,6 +477,7 @@ var graph = session.readGraphWithProperties("/home/graph/config-tables-distinct.
 ```
 
 [Figure: load Online Retail graph]
+
 ![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/34ec537a-5790-eb48-2fea-0a76726649b4.png)
 
 Execute following statement to query the purchase records of customer whose ID is `cust_12353`.
@@ -465,6 +487,7 @@ graph.queryPgql(" SELECT ID(c), ID(p), p.description FROM MATCH (c)-[has_purchas
 ```
 
 [Figure: query in online retail graph]
+
 ![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/ab888499-e06f-aef0-9ce9-2ec21348b115.png)
 
 Following statement uses personalizedPagerank to analyse customer whose ID is `cust_12353`.
@@ -475,6 +498,7 @@ analyst.personalizedPagerank(graph, vertex)
 ```
 
 [Figure: personoalizedPagerank]
+
 ![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/01581cc6-ae3f-c12b-7f19-d6723e05f275.png)
 
 Following statement queries the top10 products.
@@ -517,11 +541,13 @@ session.getId();
 ![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/8581c50f-3994-7660-e776-172cec5b3cae.png)
 
 [Figure: GraphViz Login]
+
 ![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/9eb0a81c-f5e4-4586-8d87-4f7068357b4d.png)
 
 After login, we should see a default page as below.
 
 [Figure: GraphViz Query default]
+
 ![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/43cd49e0-74e8-8e92-054e-a6b99b087198.png)
 
 We can perform a complex query and GraphViz will show us a interactive graph of the query result.
@@ -536,14 +562,17 @@ WHERE ID(c1) = 'cust_12353'
 ```
 
 [Figure: GraphViz Query sample]
+
 ![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/11597b18-3753-2856-cc6a-0bfe720bf07f.png)
 
 We can also upload custom settings to customize the output graph chart. For example, in the screenshot below, we upload a setting file called `highlight.json` to show the chart in a more intuitive way.
 
 [Figure: GraphViz upload highlight.json]
+
 ![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/047ba6b6-19f3-009e-92b0-08cf6301dd9e.png)
 
 [Figure: GraphViz highlight graph]
+
 ![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/42bcb84d-245e-c541-5525-0b5e6b239e1b.png)
 
 ## Conclusion
