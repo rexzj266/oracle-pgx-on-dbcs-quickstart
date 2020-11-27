@@ -16,22 +16,6 @@ This is a list of environment components for this article.
 - Oracle JDK 11
 - Browser: Firefox
 
-## PL/SQL Packages
-
-Oracle Graph Server and Client will work with Oracle Database 12.2 onward. However, you must install the updated PL/SQL packages that are part of the [Oracle Graph Server and Client download](https://www.oracle.com/database/technologies/spatialandgraph/property-graph-features/graph-server-and-client/graph-server-and-client-downloads.html).
-
-Download `Oracle Graph Client for PL/SQL` and unzip the file into a directory of your choice.
-Login to the Oracle Database and execute following statements
-
-```sql
--- Connect as SYSDBA
-SQL> alter session set container=<YOUR_PDB_NAME>;
-SQL> @opgremov.sql
-SQL> @catopg.sql
-```
-
-Note: there are two directories in the unzipped directory, one for users with Oracle Database 18c or below, and one for users with Oracle Database 19c or above. As a database user with DBA privilges, follow the instructions in the README.md file in the appropriate directory (that matches your database version). This has to be done for every PDB you will use the graph feature in. The DBCS instance I created is 19c, so I should execute the scripts in `19c_and_above`.
-
 ## Oracle Property Graph Server and Client Installation
 
 In this section, we will install the latest version of Oracle Graph Server and Client 20.4.
@@ -90,13 +74,33 @@ sqlplus / as sysdba
 
 ![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/f5cd3c63-eb09-839c-bb06-e667f50786fc.png)
 
+
+- PL/SQL Packages
+
+Oracle Graph Server and Client will work with Oracle Database 12.2 onward. However, you must install the updated PL/SQL packages that are part of the [Oracle Graph Server and Client download](https://www.oracle.com/database/technologies/spatialandgraph/property-graph-features/graph-server-and-client/graph-server-and-client-downloads.html).
+
+Download `Oracle Graph Client for PL/SQL` and unzip the file into a directory of your choice.
+Login to the Oracle Database and execute following statements
+
+```sql
+-- Connect as SYSDBA
+SQL> alter session set container=<YOUR_PDB_NAME>;
+SQL> @opgremov.sql
+SQL> @catopg.sql
+```
+
+Note: there are two directories in the unzipped directory, one for users with Oracle Database 18c or below, and one for users with Oracle Database 19c or above. As a database user with DBA privilges, follow the instructions in the README.md file in the appropriate directory (that matches your database version). This has to be done for every PDB you will use the graph feature in. The DBCS instance I created is 19c, so I should execute the scripts in `19c_and_above`.
+
+
+- user & roles
+
 Create database user `demograph` in PDB `pdb1`, grant role and tablespace accordingly.
 All the tables will be created and loaded into this schema `demograph`.
 
 ```sql
 CREATE USER demograph IDENTIFIED BY <PASSWORD>;
 GRANT CONNECT, resource TO demograph;
-GRANT CREATE VIEW TO demograph;
+GRANT ALTER SESSION,CREATE PROCEDURE,CREATE SESSION,CREATE TABLE, CREATE TYPE, CREATE VIEW to demograph;
 
 CREATE ROLE graph_developer;
 CREATE ROLE graph_administrator;
