@@ -8,7 +8,7 @@ Furthermore, there should be an easier way to do the deployment. We are on the C
 
 The Graph Server will be deployed in front of a DBCS instance, so an existing DBCS instance is expected and we need to do some configuration in the database.
 
-For details, please refer to the [Configuration in Oracle Database](https://qiita.com/RexZheng/items/4b75efd1149d67cf93bf#configuration-in-oracle-database) section in last post.
+For details, please refer to the [Configuration in Oracle Database](https://github.com/rexzj266/oracle-pgx-on-dbcs-quickstart/blob/master/manual-setup/pgx-manual-setup-dbcs.md#create-online-retail-tables) section in last post.
 
 ### Configuration in Oracle Database
 
