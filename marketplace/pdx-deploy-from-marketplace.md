@@ -23,7 +23,6 @@ sqlplus / as sysdba
 
 ![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/f5cd3c63-eb09-839c-bb06-e667f50786fc.png)
 
-
 - PL/SQL Packages
 
 Oracle Graph Server and Client will work with Oracle Database 12.2 onward. However, you must install the updated PL/SQL packages that are part of the [Oracle Graph Server and Client download](https://www.oracle.com/database/technologies/spatialandgraph/property-graph-features/graph-server-and-client/graph-server-and-client-downloads.html).
@@ -39,7 +38,6 @@ SQL> @catopg.sql
 ```
 
 Note: there are two directories in the unzipped directory, one for users with Oracle Database 18c or below, and one for users with Oracle Database 19c or above. As a database user with DBA privilges, follow the instructions in the README.md file in the appropriate directory (that matches your database version). This has to be done for every PDB you will use the graph feature in. The DBCS instance I created is 19c, so I should execute the scripts in `19c_and_above`.
-
 
 - user & roles
 
@@ -75,20 +73,23 @@ Please refer to the [Create Online Retail tables](https://qiita.com/RexZheng/ite
 Visit OCI Marketplace and input keyword `graph`, then we will see the tile of Oracle Property Graph Server & Client image.
 
 [Figure: Marketplace]
+
 ![marketplace.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/2c5c52eb-7115-a06f-b036-a95b7beb2631.png)
 
 [Figure: PGX in marketplace]
+
 ![PGX in marketplace](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/bbb9ffc7-8ae0-cc11-71be-189759c4a359.png)
 
 Please read the `Overview` and `Usage Instructions` before you click the `Launch Stack` button.
 
 [Figure: Launch Stack]
-![Launch Stack](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/8f02d3e3-1754-82b0-4db7-6ed5e8541964.png)
 
+![Launch Stack](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/8f02d3e3-1754-82b0-4db7-6ed5e8541964.png)
 
 Input a name of the stack. The compartment is selected same as the one when you launch the stack.
 
-[Figrue: Stack info 1]
+[Figure: Stack info 1]
+
 ![Stack info 1](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/622120a0-f16f-50c7-d09a-1cd976f5b859.png)
 
 On the next page, we need to input more information.
@@ -101,6 +102,7 @@ In the Oracle Graph Server Compute Instance section,
 - `SSH PUBLIC KEY` is the key to connect to the compute instance in which the graph server is deployed.
 
 [Figure: Stack info 2-1]
+
 ![Stack info 2-1](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/fbbea98d-d123-343b-4a5d-e373b991977d.png)
 
 Scroll down the page, in the Instance Network section, we need to select compartment, VCN, subnet accordingly.
@@ -108,23 +110,26 @@ Scroll down the page, in the Instance Network section, we need to select compart
 In the Graph Server Configuration section, `JDBC URL FOR AUTHENTICATION` is the JDBC connection string to the Oracle database we prepared in advance. Make sure the URL is accessible from the graph server. `PGQL ENGINE FOR GRAPHVIZ` we leave it as default.
 
 [Figure: Stack info 2-2]
+
 ![Stack info 2-2](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/04327789-b700-ca95-a65a-27429acd8605.png)
 
 Click Next and have brief review of our settings, then just click `Create` to start the deployment.
 
 [Figure: Stack review]
+
 ![Stack review](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/572c53ac-1cad-8829-d771-d5cddcaa933e.png)
 
 The deployment from marketplace image is performed by OCI Resource Manager. A job will be executed based on the information we configured just now.
 
 [Figure: RM job]
+
 ![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/16fe3c47-ef88-b1a0-a8d7-3bab86af81ae.png)
 
 Several minutes later, the resource manager job will be completed. We can visit the compute instance console to check the created graph server.
 
 [Figure: Graph server compute instance]
-![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/413e0c9c-4d3b-0820-7284-27c14db7ea83.png)
 
+![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/413e0c9c-4d3b-0820-7284-27c14db7ea83.png)
 
 ## Verify the deployment
 
@@ -137,6 +142,7 @@ systemctl status pgx
 ```
 
 [Figure: PGX service status]
+
 ![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/e4adc419-07a1-1bd2-4b6e-2425c4802394.png)
 
 ### Java Shell tool `opg-jshell`
@@ -148,6 +154,7 @@ opg-jshell --base_url https://localhost:7007 --username demograph
 ```
 
 [Figure: jshell connect]
+
 ![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/b647ebaf-8cc2-4a2e-8da1-875351a11468.png)
 
 ### Python client `opgpy`
@@ -208,7 +215,6 @@ graph_or.query_pgql("SELECT ID(c), ID(p), p.description FROM or MATCH (c)-[has_p
 
 ![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/5d0a80bc-6276-7a19-c19a-68a2dcce3c16.png)
 
-
 ### Destroy graph
 
 ```py
@@ -219,7 +225,6 @@ session.get_graph("or")
 [Figure: destroy graph]
 
 ![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/9faa3406-2c3a-cbd3-5a9a-58c3fe676eac.png)
-
 
 ## Conclusion
 
