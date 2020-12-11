@@ -117,6 +117,26 @@ GRANT UNLIMITED TABLESPACE TO demograph;
 
 ![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/b7fe513d-e5cf-82e3-77d0-38b813b0bf1a.png)
 
+
+#### Prepare JDBC connection string
+
+When we configure the Property Graph Server or create connection to the database later, we will need a JDBC connection string to the database.
+To construct the JDBC connection string, we need following two parts information.
+
+1. host domain / IP and port number
+2. database service name
+
+If you intend to connect to the CDB, you can get the connection string from the DBCS web console directly. In our case, we connect to the PDB, so we need to replace the CDB name with PDB name.
+
+To get the PDB service name, you can login to the DBCS instance and run `lsnrctl status` with `oralce` user.
+
+**It is highly recommended to test the connection string with sqlplus before you move forward.**
+
+[Figure: DBCS connection string to CDB]
+
+![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/751aec74-98c6-b14f-7287-4a2334ac5614.png)
+
+
 #### Configuration in Oracle Property Graph Server
 
 - Add a new system user `graph`.
@@ -131,12 +151,13 @@ sudo passwd graph
 
 ```sh
 sudo vim /etc/oracle/graph/pgx.conf
-jdbc:oracle:thin:@//db19h.sub11160238550.graphvcntokyo.oraclevcn.com:1521/pdb1.sub11160238550.graphvcntokyo.oraclevcn.com
+
+# "jdbc_url": "jdbc:oracle:thin:@//<CONNECTION STRING>"
 ```
 
-We can get the connection string from the DBCS web console, or by command `lsnrctl status` to get the service name.
-
 Since the user `demograph` was created in `pdb1`, so the connection string I am using here is to `pdb1`.
+
+Please check the screenshot below if you are not sure where to edit.
 
 [Figure: JDBC in `pgx.conf`]
 
@@ -244,7 +265,7 @@ If you can see the command prompt changed to be `opg-jshell>`, then you have con
 Download the HR create script from [here](https://github.com/rexzj266/oracle-pgx-on-dbcs-quickstart) and create HR schema in `pdb1` user `demograph`
 
 ```sql
-sqlplus demograph/<PASSWORD>@db19h.sub11160238550.graphvcntokyo.oraclevcn.com:1521/pdb1.sub11160238550.graphvcntokyo.oraclevcn.com
+sqlplus demograph/<PASSWORD>@<CONNECTION STRING>
 
 @HR_create_hr_objects.sql
 ```
@@ -254,7 +275,7 @@ sqlplus demograph/<PASSWORD>@db19h.sub11160238550.graphvcntokyo.oraclevcn.com:15
 Execute following statements in jshell to create connection to the database.
 
 ```java
-var jdbcUrl = "jdbc:oracle:thin:@//db19h.sub11160238550.graphvcntokyo.oraclevcn.com:1521/pdb1.sub11160238550.graphvcntokyo.oraclevcn.com"
+var jdbcUrl = "jdbc:oracle:thin:@//<CONNECTION STRING>"
 var user = "demograph"
 var pass = "<PASSWORD>"
 var conn = DriverManager.getConnection(jdbcUrl, user, pass)
