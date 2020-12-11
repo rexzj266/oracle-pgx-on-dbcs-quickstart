@@ -130,6 +130,8 @@ If you intend to connect to the CDB, you can get the connection string from the 
 
 To get the PDB service name, you can login to the DBCS instance and run `lsnrctl status` with `oralce` user.
 
+E.g. `db19h.sub11160238550.graphvcntokyo.oraclevcn.com:1521/pdb1.sub11160238550.graphvcntokyo.oraclevcn.com`
+
 **It is highly recommended to test the connection string with sqlplus before you move forward.**
 
 [Figure: DBCS connection string to CDB]
