@@ -177,7 +177,7 @@ In this section, we will use the Python client `opgpy` to connect to the propert
 
 ```py
 stmt_create = """
-CREATE PROPERTY GRAPH "or"
+CREATE PROPERTY GRAPH "online_retail"
     VERTEX TABLES (
         CUSTOMERS KEY(CUSTOMER_ID) PROPERTIES ARE ALL COLUMNS,
         PRODUCTS  KEY(STOCK_CODE)  PROPERTIES ARE ALL COLUMNS,
@@ -197,34 +197,35 @@ CREATE PROPERTY GRAPH "or"
     )
 """
 session.prepare_pgql(stmt_create).execute()
-graph_or = session.get_graph("or")
-graph_or
+graph_online_retail = session.get_graph("online_retail")
+graph_online_retail
 ```
 
-[Figure: create graph or]
+[Figure: create graph online_retail]
 
-![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/cbcb682a-6d68-a94a-4ed8-396a2b64abd6.png)
+![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/dcabf147-6992-c2c1-7cb8-bea2cf917c4b.png)
 
 ### Query graph
 
 ```py
-graph_or.query_pgql("SELECT ID(c), ID(p), p.description FROM or MATCH (c)-[has_purchased]->(p) WHERE c.CUSTOMER_ID = 'cust_12353'").print();
+graph_online_retail.query_pgql("SELECT ID(c), ID(p), p.description FROM online_retail MATCH (c)-[has_purchased]->(p) WHERE c.CUSTOMER_ID = 'cust_12353'").print();
 ```
 
-[Figure: query graph or]
+[Figure: query graph online_retail]
 
-![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/5d0a80bc-6276-7a19-c19a-68a2dcce3c16.png)
+![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/3c992fb6-906c-9e5b-0533-c8cbb4347444.png)
 
 ### Destroy graph
 
 ```py
-graph_or.destroy()
-session.get_graph("or")
+graph_online_retail.destroy()
+session.get_graph("online_retail")
 ```
 
 [Figure: destroy graph]
 
-![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/9faa3406-2c3a-cbd3-5a9a-58c3fe676eac.png)
+![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/a0711c4e-eb55-bca8-f3ec-2f01745b8528.png)
+
 
 ## Conclusion
 
