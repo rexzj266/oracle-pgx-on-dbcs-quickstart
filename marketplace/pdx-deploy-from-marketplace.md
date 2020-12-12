@@ -1,6 +1,6 @@
 # Deploy Oracle Property Graph Server from Marketplace
 
-In the last post - [How to setup and start to use Oracle Property Graph server](https://qiita.com/RexZheng/items/4b75efd1149d67cf93bf), we talked about how to setup and start to use Oracle Graph Server and Client on a DBCS instance. But all the steps are completed manually, and the Graph Server and database instance reside in the same server (VM). From the best practice perspective, this is not a good approach. The property graph server and database instance should be deployed in separated servers to avoid interference to each other.
+In the last post - [How to setup and start to use Oracle Property Graph server](https://github.com/rexzj266/oracle-pgx-on-dbcs-quickstart/blob/master/manual-setup/pgx-manual-setup-dbcs.md), we talked about how to setup and start to use Oracle Graph Server and Client on a DBCS instance. But all the steps are completed manually, and the Graph Server and database instance reside in the same server (VM). From the best practice perspective, this is not a good approach. The property graph server and database instance should be deployed in separated servers to avoid interference to each other.
 
 Furthermore, there should be an easier way to do the deployment. We are on the Cloud, don't we?
 
@@ -8,7 +8,7 @@ Furthermore, there should be an easier way to do the deployment. We are on the C
 
 The Graph Server will be deployed in front of a DBCS instance, so an existing DBCS instance is expected and we need to do some configuration in the database.
 
-For details, please refer to the [Configuration in Oracle Database](https://github.com/rexzj266/oracle-pgx-on-dbcs-quickstart/blob/master/manual-setup/pgx-manual-setup-dbcs.md#create-online-retail-tables) section in last post.
+For details, please refer to the [Configuration in Oracle Database](https://github.com/rexzj266/oracle-pgx-on-dbcs-quickstart/blob/master/manual-setup/pgx-manual-setup-dbcs.md#configuration-in-oracle-database) section in last post.
 
 ### Configuration in Oracle Database
 
@@ -66,7 +66,7 @@ GRANT UNLIMITED TABLESPACE TO demograph;
 
 ### Create Online Retail tables
 
-Please refer to the [Create Online Retail tables](https://github.com/rexzj266/oracle-pgx-on-dbcs-quickstart/blob/master/manual-setup/pgx-manual-setup-dbcs.md) section in the last post to create sample tables.
+Please refer to the [Create Online Retail tables](https://github.com/rexzj266/oracle-pgx-on-dbcs-quickstart/blob/master/manual-setup/pgx-manual-setup-dbcs.md#create-online-retail-tables) section in the last post to create sample tables.
 
 ## Deploy from Marketplace
 
