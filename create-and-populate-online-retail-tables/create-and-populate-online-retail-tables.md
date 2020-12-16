@@ -7,17 +7,19 @@ Please visit [here](http://archive.ics.uci.edu/ml/datasets/Online+Retail) to get
 
 - The DBCS instance has been provisioned
 - A demo user has been created and granted proper roles
-- Download the dataset csv file
 
 After login to the DBCS instance, perform following commands to download and prepare the dataset we are going to use.
 
 ```sh
 sudo su - oracle
 mkdir online-retail && cd online-retail
-wget XXX
+wget https://github.com/rexzj266/oracle-pgx-on-dbcs-quickstart/raw/master/create-and-populate-online-retail-tables/online-retail.zip
+wget https://github.com/rexzj266/oracle-pgx-on-dbcs-quickstart/raw/master/create-and-populate-online-retail-tables/create_table_normailized.sql
 unzip online-retail.zip
 ls -l
 ```
+
+![list_downloaded_files](images/list_downloaded_files.png)
 
 ## Create tables
 
