@@ -64,7 +64,7 @@ GRANT UNLIMITED TABLESPACE TO demograph;
 
 ### 创建 Online Retail 示例
 
-稍后，我们将使用几个 Online Retail 相关的示例表来体验部署完成的 Oracle Property Graph 服务。请参考另一篇文章中的 [Create Online Retail tables](https://github.com/rexzj266/oracle-pgx-on-dbcs-quickstart/blob/master/manual-setup/pgx-manual-setup-dbcs.md#create-online-retail-tables) 部分来创建这些表。
+稍后，我们将使用几个 Online Retail 相关的示例表来体验部署完成的 Oracle Property Graph 服务。请参考另一篇文章 [Create and populate the Online Retail tables](https://github.com/rexzj266/oracle-pgx-on-dbcs-quickstart/blob/master/create-and-populate-online-retail-tables/create-and-populate-online-retail-tables.md) 来创建这些表。
 
 ## 从应用程序市场(Marketplace)进行快速部署
 

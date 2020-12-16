@@ -66,7 +66,7 @@ GRANT UNLIMITED TABLESPACE TO demograph;
 
 ### Create Online Retail tables
 
-Please refer to the [Create Online Retail tables](https://github.com/rexzj266/oracle-pgx-on-dbcs-quickstart/blob/master/manual-setup/pgx-manual-setup-dbcs.md#create-online-retail-tables) section in the last post to create sample tables.
+Please follow this article: [Create and populate the Online Retail tables](https://github.com/rexzj266/oracle-pgx-on-dbcs-quickstart/blob/master/create-and-populate-online-retail-tables/create-and-populate-online-retail-tables.md) to prepare the Online Retail Tables.
 
 ## Deploy from Marketplace
 
