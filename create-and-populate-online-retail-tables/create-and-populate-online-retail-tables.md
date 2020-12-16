@@ -93,7 +93,7 @@ sqlldr rexgraph/WelCome__111@db19h.sub11160238550.graphvcntokyo.oraclevcn.com:15
     BAD=online-retail.bad \
     direct=true
 ```
-![](./images/sqlldr-load-data.png)
+![sqlldr-load-data](./images/sqlldr-load-data.png)
 
 ## Generate normalized tables
 
@@ -104,9 +104,15 @@ sqlplus <USER>/<PASSWORD>@<CONNECTION STRING TO THE PDB>
 
 # example:
 # sqlplus user/password@db19h.sub11160238550.graphvcntokyo.oraclevcn.com:1521/pdb1.sub11160238550.graphvcntokyo.oraclevcn.com
+```
 
+Execute `create_table_normailized.sql` in sqlplus.
+
+```sql
 @create_table_normailized.sql
 ```
+
+![create_normalized_tables1](images/create_normalized_tables1.png)
 
 ![create_normalized_tables](images/create_normalized_tables.png)
 
