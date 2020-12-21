@@ -97,8 +97,15 @@ PDBの`pdb1`に `demograph`というユーザを作成します。
 
 ```sql
 CREATE USER demograph IDENTIFIED BY <PASSWORD>;
-GRANT CONNECT, resource TO demograph;
-GRANT CREATE VIEW TO demograph;
+
+GRANT alter session TO demograph;
+GRANT create procedure TO demograph;
+GRANT create sequence TO demograph;
+GRANT create session TO demograph;
+GRANT create table TO demograph;
+GRANT create trigger TO demograph;
+GRANT create type TO demograph;
+GRANT create view TO demograph;
 
 CREATE ROLE graph_developer;
 CREATE ROLE graph_administrator;
