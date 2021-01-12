@@ -1,6 +1,6 @@
 # Deploy Oracle Property Graph Server from Marketplace
 
-In the last post - [How to setup and start to use Oracle Property Graph server](https://github.com/rexzj266/oracle-pgx-on-dbcs-quickstart/blob/master/manual-setup/pgx-manual-setup-dbcs.md), we talked about how to setup and start to use Oracle Graph Server and Client on a DBCS instance. But all the steps are completed manually, and the Graph Server and database instance reside in the same server (VM). From the best practice perspective, this is not a good approach. The property graph server and database instance should be deployed in separated servers to avoid interference to each other.
+In the last post - [How to setup and start to use Oracle Property Graph server](https://github.com/rexzj266/oracle-pgx-on-dbcs-quickstart/blob/master/manual-setup/pgx-manual-setup-dbcs.md), we talked about how to set up and start to use Oracle Graph Server and Client on a DBCS instance. But all the steps are completed manually, and the Graph Server and database instance reside in the same server (VM). From the best practice perspective, this is not a good approach. The property graph server and database instance should be deployed in separated servers to avoid interference with each other.
 
 Furthermore, there should be an easier way to do the deployment. We are on the Cloud, don't we?
 
@@ -8,7 +8,7 @@ Furthermore, there should be an easier way to do the deployment. We are on the C
 
 The Graph Server will be deployed in front of a DBCS instance, so an existing DBCS instance is expected and we need to do some configuration in the database.
 
-For details, please refer to the [Configuration in Oracle Database](https://github.com/rexzj266/oracle-pgx-on-dbcs-quickstart/blob/master/manual-setup/pgx-manual-setup-dbcs.md#configuration-in-oracle-database) section in last post.
+For details, please refer to the [Configuration in Oracle Database](https://github.com/rexzj266/oracle-pgx-on-dbcs-quickstart/blob/master/manual-setup/pgx-manual-setup-dbcs.md#configuration-in-oracle-database) section in the last post.
 
 ### Configuration in Oracle Database
 
@@ -28,7 +28,7 @@ sqlplus / as sysdba
 Oracle Graph Server and Client will work with Oracle Database 12.2 onward. However, you must install the updated PL/SQL packages that are part of the [Oracle Graph Server and Client download](https://www.oracle.com/database/technologies/spatialandgraph/property-graph-features/graph-server-and-client/graph-server-and-client-downloads.html).
 
 Download `Oracle Graph Client for PL/SQL` and unzip the file into a directory of your choice.
-Login to the Oracle Database and execute following statements
+Log in to the Oracle Database and execute the following statements
 
 ```sql
 -- Connect as SYSDBA
@@ -37,11 +37,11 @@ SQL> @opgremov.sql
 SQL> @catopg.sql
 ```
 
-Note: there are two directories in the unzipped directory, one for users with Oracle Database 18c or below, and one for users with Oracle Database 19c or above. As a database user with DBA privilges, follow the instructions in the README.md file in the appropriate directory (that matches your database version). This has to be done for every PDB you will use the graph feature in. The DBCS instance I created is 19c, so I should execute the scripts in `19c_and_above`.
+Note: there are two directories in the unzipped directory, one for users with Oracle Database 18c or below, and one for users with Oracle Database 19c or above. As a database user with DBA privileges, follow the instructions in the README.md file in the appropriate directory (that matches your database version). This has to be done for every PDB you will use the graph feature in. The DBCS instance I created is 19c, so I should execute the scripts in `19c_and_above`.
 
 - user & roles
 
-Create database user `demograph` in PDB `pdb1`, grant role and tablespace accordingly.
+Create database user `demograph` in PDB `pdb1`, grant role, and tablespace accordingly.
 All the tables will be created and loaded into this schema `demograph`.
 
 ```sql
@@ -86,7 +86,7 @@ Please read the `Overview` and `Usage Instructions` before you click the `Launch
 
 ![Launch Stack](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/8f02d3e3-1754-82b0-4db7-6ed5e8541964.png)
 
-Input a name of the stack. The compartment is selected same as the one when you launch the stack.
+Input the name of the stack. The compartment is selected same as the one when you launch the stack.
 
 [Figure: Stack info 1]
 
@@ -98,7 +98,7 @@ In the Oracle Graph Server Compute Instance section,
 
 - `RESOURCE NAME PREFIX` will help us to identify the created resources.
 - `ORACLE GRAPH SERVER COMPARTMENT` allows us to choose which compartment to deploy the graph server.
-- `ORACLE GRAPH SERVER SHAPE` allows us to choose different shape of the server. That means different performance of the server. Check [VM Shape page](https://docs.cloud.oracle.com/en-us/iaas/Content/Compute/References/computeshapes.htm#vmshapes) to get more information of the shapes.
+- `ORACLE GRAPH SERVER SHAPE` allows us to choose the different shape of the server. Changing shape affect the performance of the server. Check [VM Shape page](https://docs.cloud.oracle.com/en-us/iaas/Content/Compute/References/computeshapes.htm#vmshapes) to get more information about the shapes.
 - `SSH PUBLIC KEY` is the key to connect to the compute instance in which the graph server is deployed.
 
 [Figure: Stack info 2-1]
@@ -113,13 +113,13 @@ In the Graph Server Configuration section, `JDBC URL FOR AUTHENTICATION` is the 
 
 ![Stack info 2-2](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/04327789-b700-ca95-a65a-27429acd8605.png)
 
-Click Next and have brief review of our settings, then just click `Create` to start the deployment.
+Click Next and have a brief review of our settings, then just click `Create` to start the deployment.
 
 [Figure: Stack review]
 
 ![Stack review](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/100411/572c53ac-1cad-8829-d771-d5cddcaa933e.png)
 
-The deployment from marketplace image is performed by OCI Resource Manager. A job will be executed based on the information we configured just now.
+The deployment from the marketplace image is performed by OCI Resource Manager. A job will be executed based on the information we configured just now.
 
 [Figure: RM job]
 
@@ -147,7 +147,7 @@ systemctl status pgx
 
 ### Java Shell tool `opg-jshell`
 
-Let's perform following command to connect to the server.
+Let's perform the following command to connect to the server.
 
 ```sh
 opg-jshell --base_url https://localhost:7007 --username demograph
